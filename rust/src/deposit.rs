@@ -65,9 +65,9 @@ impl DepositRequest {
         let mut seen = std::collections::HashSet::new();
         for asset in &self.assets {
             if asset.faucet_id == 0 {
-                return Err(SdkError::InvalidInput(format!(
-                    "asset has placeholder faucet_id 0; deployment not complete"
-                )));
+                return Err(SdkError::InvalidInput(
+                    "asset has placeholder faucet_id 0; deployment not complete".into(),
+                ));
             }
             if !seen.insert(asset.faucet_id) {
                 return Err(SdkError::InvalidInput(format!(
