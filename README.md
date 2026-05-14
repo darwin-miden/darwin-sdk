@@ -66,10 +66,11 @@ The same formula runs in MASM (`darwin-protocol/asm/lib/drift.masm`) and TypeScr
 ```bash
 cd ts
 npm install
-npm run lint    # type-check only
+npm test           # vitest: 18 tests across deposit/redeem/rebalance
+npm run build      # tsc → dist/
 ```
 
-The TS API is intentionally a thin skeleton. Wire-up with `@miden-sdk/miden-sdk` is part of `darwin-frontend` integration work.
+The TS SDK now mirrors the Rust crate one-for-one: `BasketHandle`, `DepositRequest` + `validateDepositRequest`, `RedeemRequest` + `validateRedeemRequest`, and the off-chain `planRebalance` planner. Same validation rules, same algorithms, same error shapes. Wire-up with `@miden-sdk/miden-sdk` (the actual Web SDK calls) is part of `darwin-frontend` integration work; once wasm-bindgen ships, the TS layer can re-export the Rust crate directly.
 
 ## License
 
