@@ -5,47 +5,47 @@
  * into a Darwin basket, reading NAV, redeeming, and (M2) bridging
  * basket tokens to Ethereum via AggLayer.
  *
- * This file is a skeleton. The actual integration with
- * `@miden-sdk/miden-sdk` is wired in step with `darwin-protocol`'s
- * deployment to testnet.
+ * Mirrors `darwin_sdk` (the Rust crate); the algorithms and validation
+ * rules stay identical so on-chain and off-chain code never disagree.
+ * Once a wasm-bindgen pipeline ships, this module re-exports the
+ * Rust crate via Wasm and the local TS implementations become a
+ * pure-JS fallback for environments without WebAssembly.
  */
 
-export type BasketSymbol = "DCC" | "DAG" | "DCO";
+export {
+  type BasketHandle,
+  type BasketSymbol,
+  basketFromSymbol,
+  isKnownBasket,
+  isResolved,
+  withBasketTokenFaucet,
+  withProtocolAccount,
+} from "./baskets";
 
-export interface BasketHandle {
-  readonly symbol: BasketSymbol;
-  readonly protocolAccountId: string | null;
-  readonly basketTokenFaucetId: string | null;
-}
+export {
+  type DepositAssetEntry,
+  type DepositRequest,
+  SdkError,
+  depositAssetCount,
+  depositTotalAmountRaw,
+  validateDepositRequest,
+} from "./deposit";
 
-export interface DepositAsset {
-  readonly faucetId: string;
-  readonly amount: bigint;
-}
+export {
+  type RedeemRequest,
+  validateRedeemRequest,
+} from "./redeem";
 
-export interface DepositRequest {
-  readonly basket: BasketHandle;
-  readonly assets: readonly DepositAsset[];
-  readonly expiryBlock: bigint;
-}
-
-export interface RedeemRequest {
-  readonly basket: BasketHandle;
-  readonly burnAmount: bigint;
-  readonly recipientAccountId: string;
-  readonly expiryBlock: bigint;
-}
-
-const KNOWN_BASKETS: readonly BasketSymbol[] = ["DCC", "DAG", "DCO"] as const;
-
-export function isKnownBasket(symbol: string): symbol is BasketSymbol {
-  return (KNOWN_BASKETS as readonly string[]).includes(symbol);
-}
-
-export function basketFromSymbol(symbol: BasketSymbol): BasketHandle {
-  return {
-    symbol,
-    protocolAccountId: null,
-    basketTokenFaucetId: null,
-  };
-}
+export {
+  type BasketConstituent,
+  type BasketDescriptor,
+  type ConstituentDrift,
+  type ConstituentSnapshot,
+  type RebalancePlan,
+  type RebalanceTrade,
+  type TradeKind,
+  absDriftBps,
+  constituentWeightBps,
+  planRebalance,
+  totalPoolValue,
+} from "./rebalance";
