@@ -9,5 +9,7 @@ repository = "https://github.com/darwin-miden/darwin-sdk"
 [dependencies]
 darwin-baskets        = { git = "ssh://git@github.com/darwin-miden/darwin-baskets.git" }
 darwin-bridge-adapter = { git = "ssh://git@github.com/darwin-miden/darwin-bridge-adapter.git" }
+miden-client          = "0.14"
+miden-objects         = "0.12"
 serde     = { version = "1", features = ["derive"] }
 thiserror = "1"

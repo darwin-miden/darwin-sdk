@@ -21,6 +21,14 @@ pub mod bridge {
     };
 }
 
+/// Re-exports of the `miden-client` and `miden-objects` types the SDK
+/// surfaces. A single migration point for downstream consumers.
+pub mod miden {
+    pub use miden_client::Client as MidenClient;
+    pub use miden_objects::account::AccountId;
+    pub use miden_objects::asset::FungibleAsset;
+}
+
 pub mod deposit;
 pub mod redeem;
 
