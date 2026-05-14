@@ -13,7 +13,10 @@ darwin-sdk/
 │   └── src/
 │       ├── lib.rs        # public Rust API, BasketHandle resolution
 │       ├── deposit.rs    # Flow A helpers
-│       └── redeem.rs     # Flow C (Miden side) helpers
+│       ├── redeem.rs     # Flow C (Miden side) helpers
+│       ├── rebalance.rs  # off-chain drift / trade planner (M2 prep)
+│       └── bin/
+│           └── rebalance_demo.rs   # CLI: print a plan for any basket
 └── ts/
     ├── package.json
     ├── tsconfig.json
@@ -30,6 +33,33 @@ cargo test
 ```
 
 `BasketHandle::from_symbol("DCC")` resolves the manifest for the Core Crypto basket; `"DAG"` and `"DCO"` resolve the Aggressive and Conservative baskets.
+
+### Rebalance demo
+
+The `rebalance_demo` binary prints the off-chain drift planner's output for a synthetic snapshot.
+
+```bash
+cargo run --bin rebalance_demo                   # all 3 baskets, at-par
+cargo run --bin rebalance_demo -- DCC --skew 2.0 # DCC, first constituent doubled
+```
+
+Output for the perturbed case:
+
+```
+==== Core Crypto (DCC) ====
+  drift threshold: 500 bps   (3 constituents)
+  total pool value (x1e8): 14000
+  per-constituent drift:
+    darwin-wbtc    target=4000 bps  current=5714 bps  drift=1714 bps
+    darwin-eth     target=4000 bps  current=2857 bps  drift=1143 bps
+    darwin-usdt    target=2000 bps  current=1428 bps  drift= 572 bps
+  rebalance trades:
+    Sell darwin-wbtc    2399 base units  (drift 1714 bps)
+    Buy darwin-eth     1600 base units  (drift 1143 bps)
+    Buy darwin-usdt    800 base units  (drift 572 bps)
+```
+
+The same formula runs in MASM (`darwin-protocol/asm/lib/drift.masm`) and TypeScript (`darwin-frontend/src/lib/rebalance.ts`); the three implementations stay algorithmically identical so the on-chain trigger and the off-chain dashboards never disagree.
 
 ## TypeScript
 
