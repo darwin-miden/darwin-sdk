@@ -1,0 +1,13 @@
+[package]
+name = "darwin-sdk"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Darwin Protocol client SDK (Rust core) wrapping miden-client and miden-agglayer."
+repository = "https://github.com/darwin-miden/darwin-sdk"
+
+[dependencies]
+darwin-baskets        = { git = "ssh://git@github.com/darwin-miden/darwin-baskets.git" }
+darwin-bridge-adapter = { git = "ssh://git@github.com/darwin-miden/darwin-bridge-adapter.git" }
+serde     = { version = "1", features = ["derive"] }
+thiserror = "1"
