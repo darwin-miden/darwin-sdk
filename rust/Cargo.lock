@@ -526,7 +526,7 @@ dependencies = [
 [[package]]
 name = "darwin-baskets"
 version = "0.1.0"
-source = "git+ssh://git@github.com/darwin-miden/darwin-baskets.git#580a1add7abb4688247b74c9f91c9a9c54e8d011"
+source = "git+ssh://git@github.com/darwin-miden/darwin-baskets.git#23a008d1cf2d1deb67a38a09501689370b9855cf"
 dependencies = [
  "serde",
  "thiserror 1.0.69",

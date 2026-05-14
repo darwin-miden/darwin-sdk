@@ -56,17 +56,33 @@ pub struct BasketHandle {
 
 impl BasketHandle {
     pub fn from_symbol(symbol: &str) -> Result<Self, SdkError> {
-        let manifest = match symbol {
-            "DCC" => darwin_baskets::core_crypto(),
-            "DAG" => darwin_baskets::aggressive(),
-            "DCO" => darwin_baskets::conservative(),
-            _ => return Err(SdkError::UnknownBasket(symbol.to_string())),
-        };
+        let manifest = darwin_baskets::by_symbol(symbol)
+            .ok_or_else(|| SdkError::UnknownBasket(symbol.to_string()))?;
         Ok(Self {
             manifest,
             protocol_account_id: None,
             basket_token_faucet_id: None,
         })
+    }
+
+    /// Attaches the deployed protocol account id to this handle.
+    /// Returned by reference so the caller can chain.
+    pub fn with_protocol_account(mut self, account_id: u64) -> Self {
+        self.protocol_account_id = Some(account_id);
+        self
+    }
+
+    /// Attaches the deployed basket-token faucet id to this handle.
+    pub fn with_basket_token_faucet(mut self, faucet_id: u64) -> Self {
+        self.basket_token_faucet_id = Some(faucet_id);
+        self
+    }
+
+    /// True once both the protocol account and the basket faucet ids
+    /// have been populated from on-chain state. The deposit / redeem
+    /// helpers assert this before constructing notes.
+    pub fn is_resolved(&self) -> bool {
+        self.protocol_account_id.is_some() && self.basket_token_faucet_id.is_some()
     }
 }
 
@@ -86,5 +102,21 @@ mod tests {
     fn unknown_basket_errors() {
         let err = BasketHandle::from_symbol("XYZ").unwrap_err();
         assert!(matches!(err, SdkError::UnknownBasket(_)));
+    }
+
+    #[test]
+    fn handle_resolution_requires_both_ids() {
+        let handle = BasketHandle::from_symbol("DCC").unwrap();
+        assert!(!handle.is_resolved());
+
+        let only_account = handle.clone().with_protocol_account(42);
+        assert!(!only_account.is_resolved());
+
+        let resolved = handle
+            .with_protocol_account(42)
+            .with_basket_token_faucet(99);
+        assert!(resolved.is_resolved());
+        assert_eq!(resolved.protocol_account_id, Some(42));
+        assert_eq!(resolved.basket_token_faucet_id, Some(99));
     }
 }
