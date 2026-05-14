@@ -30,6 +30,7 @@ pub mod miden {
 }
 
 pub mod deposit;
+pub mod rebalance;
 pub mod redeem;
 
 #[derive(Debug, thiserror::Error)]
