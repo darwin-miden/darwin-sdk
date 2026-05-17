@@ -13,3 +13,5 @@ miden-client          = "0.14"
 miden-objects         = "0.12"
 serde     = { version = "1", features = ["derive"] }
 thiserror = "1"
+tokio     = { version = "1", features = ["rt", "rt-multi-thread", "macros", "time"] }
+chrono    = { version = "0.4", default-features = false, features = ["clock"] }
