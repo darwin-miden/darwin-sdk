@@ -15,3 +15,30 @@ serde     = { version = "1", features = ["derive"] }
 thiserror = "1"
 tokio     = { version = "1", features = ["rt", "rt-multi-thread", "macros", "time"] }
 chrono    = { version = "0.4", default-features = false, features = ["clock"] }
+
+# Live Pragma path for the rebalance bot. Enabled with --features pragma-live.
+[dependencies.darwin-oracle-adapter]
+git      = "ssh://git@github.com/darwin-miden/darwin-oracle-adapter.git"
+features = ["pragma-live"]
+optional = true
+
+[dependencies.miden-client-sqlite-store]
+version  = "0.14"
+optional = true
+
+[dependencies.miden-protocol]
+version  = "0.14"
+optional = true
+
+[dependencies.anyhow]
+version  = "1"
+optional = true
+
+[features]
+default = []
+pragma-live = [
+    "dep:darwin-oracle-adapter",
+    "dep:miden-client-sqlite-store",
+    "dep:miden-protocol",
+    "dep:anyhow",
+]
