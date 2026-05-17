@@ -15,8 +15,8 @@
 //!      production wires this to a Flow B note submission via
 //!      miden-client + the in-protocol Miden DEX).
 //!
-//! Headline M2 deliverable per the grant proposal §2 (rebalancing
-//! engine, drift detection → trigger). Independent of AggLayer.
+//! Rebalancing engine: drift detection → trigger. Independent
+//! of AggLayer.
 //!
 //! Usage:
 //!     cargo run -p darwin-sdk --bin rebalance_bot                # default 30s tick
