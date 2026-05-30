@@ -28,7 +28,14 @@
 set -euo pipefail
 
 RPC=${RPC:-https://ethereum-sepolia-rpc.publicnode.com}
-USER_PK=${USER_PK:-0x47b0a088fc62101d8aefc501edec2266ff2fc4cf84c93a8e6c315dedb0d942be}
+
+# Operator key sourced from $HOME/.darwin-env (gitignored) rather than
+# defaulted inline — see darwin-infra/.env.example for the template.
+# Testnet burner only.
+if [[ -f "$HOME/.darwin-env" ]]; then
+    set -a; source "$HOME/.darwin-env"; set +a
+fi
+: "${USER_PK:?USER_PK must be set (export it or put it in \$HOME/.darwin-env)}"
 AMOUNT_ETH=${AMOUNT_ETH:-0.001}
 
 # Sepolia Uniswap V3 canonical deployment, verified live 2026-05-27.
