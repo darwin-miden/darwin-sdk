@@ -7,8 +7,8 @@ description = "Darwin Protocol client SDK (Rust core) wrapping miden-client and 
 repository = "https://github.com/darwin-miden/darwin-sdk"
 
 [dependencies]
-darwin-baskets        = { git = "ssh://git@github.com/darwin-miden/darwin-baskets.git" }
-darwin-bridge-adapter = { git = "ssh://git@github.com/darwin-miden/darwin-bridge-adapter.git" }
+darwin-baskets        = { git = "https://github.com/darwin-miden/darwin-baskets.git" }
+darwin-bridge-adapter = { git = "https://github.com/darwin-miden/darwin-bridge-adapter.git" }
 miden-client          = "0.14"
 miden-objects         = "0.12"
 serde     = { version = "1", features = ["derive"] }
@@ -18,7 +18,7 @@ chrono    = { version = "0.4", default-features = false, features = ["clock"] }
 
 # Live Pragma path for the rebalance bot. Enabled with --features pragma-live.
 [dependencies.darwin-oracle-adapter]
-git      = "ssh://git@github.com/darwin-miden/darwin-oracle-adapter.git"
+git      = "https://github.com/darwin-miden/darwin-oracle-adapter.git"
 features = ["pragma-live"]
 optional = true
 
