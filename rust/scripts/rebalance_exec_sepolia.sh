@@ -3,7 +3,7 @@
 # Real swap execution for Flow B (the rebalance leg), against the
 # Uniswap V3 SwapRouter02 deployment on Sepolia.
 #
-# The grant audit doc previously flagged Flow B's swap exec as 🟡
+# An earlier audit flagged Flow B's swap exec as 🟡
 # ("read-only quotes via Uniswap + Paraswap, execution swap réelle
 # pas tentée"). This script closes the gap: it actually signs and
 # submits the WETH→USDC leg, captures the tx hash, and prints

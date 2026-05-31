@@ -2,7 +2,7 @@
 #
 # Rebalance leg fallback via Uniswap V3.
 #
-# The Miden in-protocol DEX isn't live yet. The M2 grant deliverable
+# The Miden in-protocol DEX isn't live yet. The M2 work item
 # calls for Uniswap / 1inch as the fallback execution venue for the
 # rebalance leg. This script demonstrates that path end-to-end:
 #
